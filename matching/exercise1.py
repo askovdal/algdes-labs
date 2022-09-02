@@ -46,5 +46,5 @@ while len(free) != 0: #While there is a man m who is free and hasn't proposed to
         
 for woman, man in matchings.items():
     print(names[man] + ' -- ' + names[woman])      
-#print(matchings)
+
 
