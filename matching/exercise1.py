@@ -20,12 +20,16 @@ for i in range(n*2):
     
 input = input[n*2:]
 
-for i in range(0,n*2,2):
-    man = [j for j in input[i].split(':')]
-    woman = [j for j in input[i+1].split(':')]
-    free.append(int(man[0]))
-    proposers[int(man[0])] = [int(i) for i in man[1].split()]
-    rejecters[int(woman[0])] = [int(i) for i in woman[1].split()]
+for i in range(n*2):
+    if (int(input[i].split(':')[0])%2) == 0:
+        woman = [j for j in input[i].split(':')]
+        rejecters[int(woman[0])] = [int(i) for i in woman[1].split()]
+    else:
+        man = [j for j in input[i].split(':')]
+        free.append(int(man[0]))
+        proposers[int(man[0])] = [int(i) for i in man[1].split()]
+    
+
 
 ### ALGORITHM
 
