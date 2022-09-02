@@ -24,8 +24,7 @@ n=3
 6: 1 5 3"""
 
 
-
-input = sys.stdin.read().split("\n")
+"""input = sys.stdin.read().split("\n")
 
 for line in input[0:8]:
     if line[0]== '#':
@@ -52,13 +51,43 @@ for line in input[2*n+2:4*n+2]:
         #x = [int(i) for i in x.split()]
         proposers[num]= [int(line) for line in line[3:].split(' ')]
     if num%2 ==0:
-        rejecters[num]= [int(line) for line in line[3:].split(' ')]
+        rejecters[num]= [int(line) for line in line[3:].split(' ')]"""
+
+input = sys.stdin.read().split("\n")
+input = [i for i in input if (i != '') and ('#' not in i)]
+
+n = int(input[0][2:])
+input.pop(0)
+
+names = {}
+proposers = {}
+rejecters = {}
+matchings = {}
+free = []
+
+#print(input, n*2, '\n')
+
+for i in range(n*2):
+    person = [j for j in input[i].split()]
+    names[int(person[0])] = person[1]
+    
+input = input[n*2:]
+
+for i in range(0,n*2,2):
+    man = [j for j in input[i].split(':')]
+    #print(man)
+    woman = [j for j in input[i+1].split(':')]
+    free.append(int(man[0]))
+    proposers[int(man[0])] = [int(i) for i in man[1].split()]
+    rejecters[int(woman[0])] = [int(i) for i in woman[1].split()]
 
 
+#print(proposers, '\n')
+#print(rejecters)
 #proposers = {1: [6, 4, 2], 3: [2, 6, 4], 5: [6, 4, 2]} #men
 #rejecters = {2: [3, 5, 1], 4: [5, 1, 3], 6: [1, 5, 3]} #woman
-matchings = {}
-free = [1, 3, 5] #Initially all m ∈ M and w ∈W are free
+
+#free = [1, 3, 5] #Initially all m ∈ M and w ∈W are free
 
 
 while len(free) != 0: #While there is a man m who is free and hasn't proposed to every woman
@@ -69,16 +98,16 @@ while len(free) != 0: #While there is a man m who is free and hasn't proposed to
         matchings[woman] = man #(m, w) become engaged
         del free[0] #remove man from list of free men
         proposers[man].remove(woman) #remove woman from list of women man has proposed to
-    elif rejecters[woman].index(man) < rejecters[woman].index(matchings[woman]): # Else w is currently engaged to m and If w prefers old m to new m then
+    elif rejecters[woman].index(man) > rejecters[woman].index(matchings[woman]): # Else w is currently engaged to m and If w prefers old m to new m then
         proposers[man].remove(woman) #m remains free and remove the woman that he has proposed to from rank list
     else: #w prefers new m to old m
         free.append(matchings[woman]) #add currently matched man to list of free men
         matchings[woman] = man #add new man to matching
         del free[0] #remove new man from free men list
         
-        
-    
-print(matchings)
+for woman, man in matchings.items():
+    print(names[man] + ' -- ' + names[woman])      
+#print(matchings)
 
 """
 Initially all m ∈ M and w ∈W are free
