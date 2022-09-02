@@ -3,17 +3,67 @@
 #from collections import deque  # https://realpython.com/linked-lists-python/
 
 from operator import index
+import sys
+
+input = sys.stdin.read().split("\n")
+
+for line in input[0:8]:
+    if line[0]== '#':
+        input.remove(line)
+   
+print("new",input)
+n = int(input[0][2:])
+
+m_names = {}
+w_names = []
+for line in input[1:2*n+1]:
+    num = int(line[0])
+    print(num)
+    if num%2 !=0: 
+        m_names[num]=line[2:]
+    if num%2 ==0:
+        w_names.append(line)
+
+print("m_names",m_names)
+print("w",w_names)
+
+print("n", n) # preferences
+
+proposers = {}
+rejecters = {}
+for line in input[2*n+2:4*n+2]:
+    num = int(line[0])
+    if num%2 !=0: 
+        #x = [int(i) for i in x.split()]
+        proposers[num]= [int(line) for line in line[3:].split(' ')]
+    if num%2 ==0:
+        rejecters[num]= [int(line) for line in line[3:].split(' ')]
+print("p",proposers, "r", rejecters)
+"""
+n=3
+1 Ross
+2 Monica
+3 Chandler
+4 Phoebe
+5 Joey
+6 Rachel
+
+1: 6 4 2
+2: 3 5 1
+3: 2 6 4
+4: 5 1 3
+5: 6 4 2
+6: 1 5 3"""
 
 
-n = 3 # preferences
 
 #llist = deque(1,2)
 #print(llist)
 
 print('hello world')
 
-proposers = {1: [6, 4, 2], 3: [2, 6, 4], 5: [6, 4, 2]} #men
-rejecters = {2: [3, 5, 1], 4: [5, 1, 3], 6: [1, 5, 3]} #woman
+#proposers = {1: [6, 4, 2], 3: [2, 6, 4], 5: [6, 4, 2]} #men
+#rejecters = {2: [3, 5, 1], 4: [5, 1, 3], 6: [1, 5, 3]} #woman
 matchings = {}
 free = [1, 3, 5] #Initially all m ∈ M and w ∈W are free
 
@@ -35,7 +85,7 @@ while len(free) != 0: #While there is a man m who is free and hasn't proposed to
         
         
     
-
+print(matchings)
 
 """
 Initially all m ∈ M and w ∈W are free
