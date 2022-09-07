@@ -4,3 +4,55 @@ Improvement (ved ikke om der er andre, men dette er krav for at opnå O(n^2):
 2. I mænds og kvinders preferences fjerner i 0 index med remove. Dette er for langsomt, da det kører i O(n). 
    I stedet,  brug en linked list, da det lader jer fjerne første element i konstant tid (eller en queue).
 3. Kvinder skal kunne sammenligne mænd i konstant tid. Med lister er det O(n). Derfor, gør som bogen siger [2.3], eller se neden under for copy paste fra bogen.  
+
+
+COPY PASTA:
+
+1. We need to be able to identify a free man.
+2. We need, for a man m, to be able to identify the highest-ranked woman
+to whom he has not yet proposed.
+3. For a woman w, we need to decide if w is currently engaged, and if she
+is, we need to identify her current partner.
+4. For a woman w and two men m and m′, we need to be able to decide,
+again in constant time, which of m or m′ is preferred by w.
+
+First, consider selecting a free man. We will do this by maintaining the
+set of free men as a linked list. When we need to select a free man, we take
+the first man m on this list. We delete m from the list if he becomes
+engaged, and possibly insert a different man m′, if some other man m′
+becomes free. In this case, m′ can be inserted at the front of the list, again in
+constant time.
+Next, consider a man m. We need to identify the highest-ranked
+woman to whom he has not yet proposed. To do this we will need to
+maintain an extra array Next that indicates for each man m the position of
+the next woman he will propose to on his list. We initialize Next[m] = 1 for
+all men m. If a man m needs to propose to a woman, he'll propose to w =
+ManPref [m,Next[m]], and once he proposes to w, we increment the value
+of Next[m] by one, regardless of whether or not w accepts the proposal.
+Now assume man m proposes to woman w; we need to be able to
+identify the man m′ that w is engaged to (if there is such a man). We can do
+this by maintaining an array Current of length n, where Current[w] is the
+woman w's current partner m′. We set Current [w] to a special null symbol
+when we need to indicate that woman w is not currently engaged; at the
+start of the algorithm, Current [w] is initialized to this null symbol for all
+women w.
+To sum up, the data structures we have set up thus far can implement
+the operations (1)-(3) in O(1) time each.
+Maybe the trickiest question is how to maintain women's preferences
+to keep step (4) efficient. Consider a step of the algorithm, when man m
+proposes to a woman w. Assume w is already engaged, and her current
+partner is m′ =Current[w]. We would like to decide in O(1) time if woman w
+prefers m or m′. Keeping the women's preferences in an array WomanPref,
+analogous to the one we used for men, does not work, as we would need to
+walk through w's list one by one, taking O(n) time to find m and m′ on the
+list. While O(n) is still polynomial, we can do a lot better if we build an
+auxiliary data structure at the beginning.
+At the start of the algorithm, we create an n × n array Ranking, where
+Ranking[w, m] contains the rank of man m in the sorted order of w's
+preferences. By a single pass through w's preference list, we can create this
+array in linear time for each woman, for a total initial time investment
+proportional to n^2.
+Then, to decide which of m or m′ is preferred by w, we
+simply compare the values Ranking[w, m] and Ranking[w, m′].
+This allows us to execute step (4) in constant time, and hence we have
+everything we need to obtain the desired running time.
