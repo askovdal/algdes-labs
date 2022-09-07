@@ -1,11 +1,15 @@
 Improvement (ved ikke om der er andre, men dette er krav for at opnå O(n^2):
 1. I stedet for at del items fra liste, så brug pop. del kræver O(n) hvorimod pop er konstant tid. 
    Dog, vær opmærksom på at i skal til at accesse sidste element i listen istedet for det først. Ellers, så brug linked list til at dequeue første element.
+   RETTELSE: free er nu et sæt hvor der bliver brugt pop og add i stedet
 2. I mænds og kvinders preferences fjerner i 0 index med remove. Dette er for langsomt, da det kører i O(n). 
    I stedet,  brug en linked list, da det lader jer fjerne første element i konstant tid (eller en queue).
+   RETTELSE: mænds preferencer er nu en deque, hvor der bruges popleft() i stedet
 3. Når vi tjekker om kvinder er frie, vi tjekker om kvinder er in matchings. Detter tager linear tid tho, og vi skal have konstant. Istedet kan man for eksempel
    init matchings med null values for alle kvinder, og så tjekke om matchings[woman] is null. Det er nemlig konstant tid at slå op, men tager lineart at finde in.
+   RETTELSE: alle kvinder er nu i matching med starten med value: None
 4. Kvinder skal kunne sammenligne mænd i konstant tid. Med lister er det O(n). Derfor, gør som bogen siger [2.3], eller se neden under for copy paste fra bogen.  
+   RETTELSE: Kvinders preferencer er nu en dict i stedet for liste, så der kan sammenlignes vil at tilgå key, og ranken vil være value
 
 
 COPY PASTA:

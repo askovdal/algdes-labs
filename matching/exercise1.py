@@ -30,8 +30,7 @@ for i in range(n*2):
         man = [j for j in input[i].split(':')]
         free.add(int(man[0]))
         proposers[int(man[0])] = deque([int(i) for i in man[1].split()])
-print('proposers, men:', proposers, '\n')
-print('rejesters, women:', rejecters, '\n')
+
 
 
 ### ALGORITHM
@@ -39,16 +38,10 @@ print('rejesters, women:', rejecters, '\n')
 while len(free) != 0: #While there is a man m who is free and hasn't proposed to every woman
     man = free.pop() #Choose such a man m
     woman = proposers[man][0]#Let w be the highest-ranked woman in m's preference list
-    print('woman', woman, 'man', man)
-    print('proposers, men:', proposers, '\n')
-    print('rejesters, women:', rejecters, '\n')
-
     if matchings[woman] == None: #If w is free then
         matchings[woman] = man #(m, w) become engaged
         proposers[man].popleft() #remove woman from list of women man has proposed to
-        
     elif rejecters[woman][man] > rejecters[woman][matchings[woman]]: # Else w is currently engaged to m and If w prefers old m to new m then
-       
         proposers[man].popleft() #m remains free and remove the woman that he has proposed to from rank list
         free.add(man)
     else: #w prefers new m to old m
