@@ -9,7 +9,7 @@ Improvement (ved ikke om der er andre, men dette er krav for at opnå O(n^2):
    init matchings med null values for alle kvinder, og så tjekke om matchings[woman] is null. Det er nemlig konstant tid at slå op, men tager lineart at finde in.
    RETTELSE: alle kvinder er nu i matching med starten med value: None
 4. Kvinder skal kunne sammenligne mænd i konstant tid. Med lister er det O(n). Derfor, gør som bogen siger [2.3], eller se neden under for copy paste fra bogen.  
-   RETTELSE: Kvinders preferencer er nu en dict i stedet for liste, så der kan sammenlignes vil at tilgå key, og ranken vil være value
+   RETTELSE: Kvinders preferencer er nu en dict i stedet for liste, så der kan sammenlignes ved at tilgå key, og ranken vil være value
 
 
 COPY PASTA:
