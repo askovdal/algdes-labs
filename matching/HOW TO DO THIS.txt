@@ -3,7 +3,9 @@ Improvement (ved ikke om der er andre, men dette er krav for at opnå O(n^2):
    Dog, vær opmærksom på at i skal til at accesse sidste element i listen istedet for det først. Ellers, så brug linked list til at dequeue første element.
 2. I mænds og kvinders preferences fjerner i 0 index med remove. Dette er for langsomt, da det kører i O(n). 
    I stedet,  brug en linked list, da det lader jer fjerne første element i konstant tid (eller en queue).
-3. Kvinder skal kunne sammenligne mænd i konstant tid. Med lister er det O(n). Derfor, gør som bogen siger [2.3], eller se neden under for copy paste fra bogen.  
+3. Når vi tjekker om kvinder er frie, vi tjekker om kvinder er in matchings. Detter tager linear tid tho, og vi skal have konstant. Istedet kan man for eksempel
+   init matchings med null values for alle kvinder, og så tjekke om matchings[woman] is null. Det er nemlig konstant tid at slå op, men tager lineart at finde in.
+4. Kvinder skal kunne sammenligne mænd i konstant tid. Med lister er det O(n). Derfor, gør som bogen siger [2.3], eller se neden under for copy paste fra bogen.  
 
 
 COPY PASTA:
