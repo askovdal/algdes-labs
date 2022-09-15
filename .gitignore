@@ -24,3 +24,7 @@
 *.synctex.gz
 *.fdb_latexmk
 *.fls
+
+.idea
+.DS_Store
+__pycache__
