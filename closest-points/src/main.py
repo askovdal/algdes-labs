@@ -16,44 +16,26 @@ def euclidian_distance(p1, p2):
 
 def smallest_dist(P, n): 
     min_val = float('inf') # base value 
-    p_0 = 0 
-    p_1 = 0
     for i in range(n): # Nested loop to compare all points in the list (max 3 points = max )
         for j in range(i + 1, n):
             if euclidian_distance(P[i], P[j]) < min_val:
                 min_val = euclidian_distance(P[i], P[j])
-                p_0 = P[i]
-                p_1 = P[j]
     return min_val
 
 def smallest_dist_middle(S_y, n):
     min_val = float('inf')
-    p_0 = 0 
-    p_1 = 0
     count = 0
-    for i in range(n):
+    for i in range(n): # Nested loop that only compare with the next 15 points (look in the book)
         for j in range(i + 1, n):
             if count == 15:
                 count = 0
                 break
             elif euclidian_distance(S_y[i], S_y[j]) < min_val:
                 min_val = euclidian_distance(S_y[i], S_y[j])
-                p_0 = S_y[i]
-                p_1 = S_y[j]
             count += 1
     return min_val
-
-def closest_pair(P):
-    p_x = [list(map(float, p)) for p in P]
-    p_y = copy.deepcopy(p_x)
-    # Sorted by x-coordinates
-    p_x.sort(key=lambda x: x[1])
-    # Sorted by y-coordinates
-    p_y.sort(key=lambda x: x[2])
     
-    return closest_pair_rec(p_x, p_y, 'O')
-    
-def closest_pair_rec(p_x, p_y, m):
+def closest_pair_rec(p_x, p_y):
     
     if len(p_x) <= 3:
         # return the smallest distance between the three points and continue the recursion
@@ -70,8 +52,8 @@ def closest_pair_rec(p_x, p_y, m):
     R_x = p_x[split:]  
     R_y = p_y[split:] 
     
-    q_min = closest_pair_rec(Q_x, Q_y, 'Q') # Return the min distance in Q
-    r_min = closest_pair_rec(R_x, R_y, 'R') # Return the min distance in R 
+    q_min = closest_pair_rec(Q_x, Q_y) # Return the min distance in Q
+    r_min = closest_pair_rec(R_x, R_y) # Return the min distance in R 
     
     delta = min(q_min, r_min) # smallest distance of the two halves Q & L    
     x = p_x[split] # the point with the x-coordinate that is in the middle of the plane and defines L
@@ -86,6 +68,16 @@ def closest_pair_rec(p_x, p_y, m):
         return q_min
     else:
         return r_min
+    
+def closest_pair(P):
+    p_x = [list(map(float, p)) for p in P]
+    p_y = copy.deepcopy(p_x)
+    # Sorted by x-coordinates
+    p_x.sort(key=lambda x: x[1])
+    # Sorted by y-coordinates
+    p_y.sort(key=lambda x: x[2])
+    
+    return closest_pair_rec(p_x, p_y)
     
 min_distance = closest_pair(matches)
 print(len(matches), min_distance)
