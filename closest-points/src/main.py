@@ -56,11 +56,11 @@ def closest_pair(P):
 def closest_pair_rec(p_x, p_y, m):
     
     if len(p_x) <= 3:
-        
-        
+        # return the smallest distance between the three points and continue the recursion
         return smallest_dist(p_x, len(p_x))
         
-    # Else, divide and construct Qx, Qy, Rx, Ry (O(n) time)
+    # Else, divide and construct Qx, Qy, Rx, Ry (O(n) time):
+    
     # Divide sorted x coordinates down the middle to find line L
     split = len(p_x) // 2
     # Left side of line L
@@ -70,23 +70,16 @@ def closest_pair_rec(p_x, p_y, m):
     R_x = p_x[split:]  
     R_y = p_y[split:] 
     
-    q_min = closest_pair_rec(Q_x, Q_y, 'Q') # Return the two points in Q with smallest distance
-   
-    r_min = closest_pair_rec(R_x, R_y, 'R') # Return the two points in R with smallest distance
+    q_min = closest_pair_rec(Q_x, Q_y, 'Q') # Return the min distance in Q
+    r_min = closest_pair_rec(R_x, R_y, 'R') # Return the min distance in R 
     
-    
-    delta = min(q_min, r_min) # smallest distance of the two halves Q & L
-    
+    delta = min(q_min, r_min) # smallest distance of the two halves Q & L    
     x = p_x[split] # the point with the x-coordinate that is in the middle of the plane and defines L
     
-    
-    
-    
     S_y = [point for point in p_y if (abs(point[1] - x[1]) < delta)] # set of all points in P, sorted by y coordinate, within delta distance of L
-    s_min = smallest_dist_middle(S_y, len(S_y))
+    s_min = smallest_dist_middle(S_y, len(S_y)) # Return the min distance in the middle section
     
-    
-    
+    # return the min distance and continue the recursion
     if s_min < delta:   
         return s_min
     elif q_min < r_min: 
@@ -94,9 +87,6 @@ def closest_pair_rec(p_x, p_y, m):
     else:
         return r_min
     
-    
-    
-
 min_distance = closest_pair(matches)
 print(len(matches), min_distance)
 
