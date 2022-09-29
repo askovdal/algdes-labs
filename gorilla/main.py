@@ -25,11 +25,12 @@ for inp in sys.stdin:
         dna[species] = ""
     else:
         dna[species] += inp.strip()
+print(dna)
 
 
 def alignment(x, y):
-    x = list(x)  # x, n, i
-    y = list(y)  # y, m, j
+    x = list(x)  # x, m, i
+    y = list(y)  # y, n, j
     m = len(x)
     n = len(y)
 
@@ -55,34 +56,61 @@ def alignment(x, y):
             b = pgap + dp[i - 1, j]
             c = pgap + dp[i, j - 1]
 
-            max_thing = max(a, b, c)
+            max_val = max(a, b, c)
 
-            if max_thing == a:
-                xs.append(x[i - 1])
-                ys.append(y[j - 1])
+            dp[i, j] = max_val
 
-            dp[i, j] = max_thing
-            # x[i]
-            # y[j]
 
-    print(xs)
-    print(ys)
-    # print(dp)
+
+    
+    #print(dp)
+    
     # print(dp[m, n])
-    return dp[m, n]
+    xs = []
+    ys = []
+    def findseq(i,j):
 
-alignment("KQRK", "KAK")
+        a = blosum[x[i - 1]][y[j - 1]] + dp[i - 1, j - 1]
+        b = pgap + dp[i - 1, j]
+        c = pgap + dp[i, j - 1]
+        
+        if dp[i,j] == a:
+            xs.insert(0,x[i - 1])
+            ys.insert(0,y[j - 1])
+            findseq(i-1,j-1)
+        elif dp[i,j] == b:
+            xs.insert(0,x[i - 1])
+            ys.insert(0,'-')
+            findseq(i-1,j)
+        elif dp[i,j] == c:
+            
+            xs.insert(0,'-')
+            ys.insert(0,y[j - 1])
+            findseq(i,j-1)
+    
+    
+    findseq(m,n)
+    xs = ''.join(xs)
+    ys = ''.join(ys)
+    
+    return dp[m, n], xs, ys
 
 
-# for xasd in dna.keys():
-#     for yasd in dna.keys():
-#         x = dna[xasd]
-#         y = dna[yasd]
-#         al = alignment(x, y)
-#         print(xasd, yasd)
-#         print(al)
+    
 
-# OPT(i,j)=min[α_xi_yj + OPT(i−1,j−1), δ + OPT(i−1,j), δ + OPT(i,j−1)].
+print(alignment("KQRK", "KAK"))
+
+
+for xasd in dna.keys():
+    for yasd in dna.keys():
+        x = dna[xasd]
+        y = dna[yasd]
+        val, xs, ys = alignment(x, y)
+        print(xasd + '--' + yasd + ': ' + str(int(val)))
+        print(xs)
+        print(ys)
+
+#OPT(i,j)=min[α_xi_yj + OPT(i−1,j−1), δ + OPT(i−1,j), δ + OPT(i,j−1)].
 
 
 """
