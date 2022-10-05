@@ -25,7 +25,7 @@ for inp in sys.stdin:
         dna[species] = ""
     else:
         dna[species] += inp.strip()
-print(dna)
+# print(dna)
 
 
 def alignment(x, y):
@@ -98,11 +98,12 @@ def alignment(x, y):
 
     
 
-print(alignment("KQRK", "KAK"))
+# print(alignment("KQRK", "KAK"))
 
-
-for xasd in dna.keys():
-    for yasd in dna.keys():
+keys = list(dna.keys())
+for i, xasd in enumerate(keys):
+    keys_left = keys[i+1:]
+    for yasd in keys_left:
         x = dna[xasd]
         y = dna[yasd]
         val, xs, ys = alignment(x, y)
@@ -112,6 +113,18 @@ for xasd in dna.keys():
 
 #OPT(i,j)=min[α_xi_yj + OPT(i−1,j−1), δ + OPT(i−1,j), δ + OPT(i,j−1)].
 
+'''
+# rat comparison
+print('rat')
+rat = 'MVHLTDAEKAAVNALWGKVNPDDVGGEALGRLLVVYPWTQRYFDSFGDLSSASAIMGNPKVKAHGKKVINAFNDGLKHLDNLKGTFAHLSELHCDKLHVDPENFRLLGNMIVIVLGHHLGKEFTPCAQAAFQKVVAGVASALAHKYH'
+for xasd in dna.keys():
+    x = dna[xasd]
+    y = rat
+    val, xs, ys = alignment(x, y)
+    print(xasd + '--' + 'rat' + ': ' + str(int(val)))
+    print(xs)
+    print(ys)
+'''
 
 """
 >Sphinx 
