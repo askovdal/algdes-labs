@@ -1,0 +1,47 @@
+
+data/G-ex.txt
+['0', '1', '2', '3']
+0
+data/P3.txt
+['1', '2', '3']
+2
+data/bht.txt
+['tears', 'sears', 'stars', 'stare', 'stale', 'stile', 'smile']
+0
+data/common-1-100.txt
+-1
+data/common-1-1000.txt
+-1
+data/common-1-1500.txt
+-1
+data/common-1-20.txt
+-1
+data/common-1-2000.txt
+-1
+data/common-1-250.txt
+-1
+data/common-1-2500.txt
+['start', 'stare', 'aster', 'alter', 'alder', 'elder', 'ender']
+1
+data/common-1-3000.txt
+['start', 'stare', 'aster', 'alter', 'alder', 'elder', 'ender']
+1
+data/common-1-3500.txt
+['start', 'stare', 'aster', 'alter', 'alder', 'elder', 'ender']
+1
+data/common-1-4000.txt
+['start', 'stare', 'aster', 'alter', 'alder', 'elder', 'ender']
+1
+data/common-1-4500.txt
+['start', 'stare', 'aster', 'alter', 'alder', 'elder', 'ender']
+1
+data/common-1-50.txt
+-1
+data/common-1-500.txt
+-1
+data/common-1-5000.txt
+['start', 'stare', 'aster', 'alter', 'alder', 'elder', 'ender']
+1
+data/common-1-5757.txt
+['start', 'stare', 'aster', 'alter', 'alder', 'elder', 'ender']
+1
