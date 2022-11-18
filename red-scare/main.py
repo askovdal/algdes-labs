@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 from networkx.drawing.nx_pydot import graphviz_layout
 import netwulf as nw
 
+# https://faculty.math.illinois.edu/~mlavrov/docs/482-fall-2019/lecture27.pdf
+
 n, m, r = list(map(int, input().split(" ")))
 s, t = input().split(" ")
 
@@ -34,7 +36,7 @@ nx.set_node_attributes(G, is_red_dict, name="color")
 G.add_edges_from(edges)
 
 
-def none(G: nx.Graph, s: str, t: str):
+def none(G, s: str, t: str):
     blacks = []
     for key, val in nx.get_node_attributes(G, "color").items():
         if val == "black":
@@ -54,21 +56,65 @@ def few(G, s, t):
             1 if attr[edge[1]] == "red" or attr[edge[0]] == "red" else 0
         )
     try:
-        path = nx.dijkstra_path(_G, source=s, target=t, weight="weight")
+        path = nx.dijkstra_path(_G, source=s, target=t)
         if len(path) < 20:
             print(path)
-            # print(attr)
         path_sum = 0
         for i in range(len(path) - 1):
-            path_sum += _G[path[i]][path[i+1]]['weight']
+            path_sum += _G[path[i]][path[i + 1]]["weight"]
         return path_sum
     except (ValueError, nx.exception.NodeNotFound, nx.exception.NetworkXNoPath):
         return -1
 
-    # nx.shortes_path(_G, source=s, target=t)
+
+def some(G, s, t):
+    out = many(G, s, t)
+    if out == 'not dag':
+        return 'not dag'
+    elif out > 0:
+        return True
+    else:
+        return False
 
 
-print(few(G, s, t))
+# only works on DAG graphs because a cyclic graph with negative values would loop forever
+def many(G, s, t):
+    _G = G.copy()
+    if not nx.is_directed_acyclic_graph(_G):
+        return "not dag"
+    attr = nx.get_node_attributes(_G, "color")
+    for edge in _G.edges:
+        _G[edge[0]][edge[1]]["weight"] = (
+            -1 if attr[edge[1]] == "red" or attr[edge[0]] == "red" else 0
+        )
+    try:
+        # Kig på dette
+        path = nx.bellman_ford_path(_G, source=s, target=t)  # shortest path
+        if len(path) < 20:
+            print(path)
+        path_sum = 0
+        for i in range(len(path) - 1):
+            path_sum += _G[path[i]][path[i + 1]]["weight"]
+        return -path_sum
+    except (ValueError, nx.exception.NodeNotFound, nx.exception.NetworkXNoPath):
+        return -1
+
+
+def alternate(G, s, t):
+    _G = G.copy()
+    attr = nx.get_node_attributes(_G, "color")
+    edges = list(_G.edges)
+    for edge in edges:
+        if attr[edge[0]] == attr[edge[1]]:
+            _G.remove_edge(edge[0], edge[1])
+    try:
+        print(nx.shortest_path(_G, source=s, target=t))
+        return True
+    except nx.NetworkXNoPath:
+        return False
+
+
+print(some(G, s, t))
 
 # nw.visualize(G)
 # pos = graphviz_layout(G, prog="dot")
@@ -79,10 +125,10 @@ print(few(G, s, t))
 # plt.show()
 
 
-"""Few - dijsktra 
-- Shortest path
-- Does not work with negative weight
-- Give red high weight (1/0)
+"""Longest path - many - NP-hard 
+- Ham path can be reduced to k-path
+- Give weight to the red  (0/1)
+- Ingen cycler og directed (DAG)
 
 None
 Some 
