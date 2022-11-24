@@ -45,7 +45,7 @@ def none(G, s: str, t: str):
     try:
         return len(nx.shortest_path(_G, source=s, target=t))
     except (ValueError, nx.exception.NodeNotFound, nx.exception.NetworkXNoPath):
-        return -1, len(_G.edges)
+        return -1
 
 
 def few(G, s, t):
@@ -53,13 +53,13 @@ def few(G, s, t):
     attr = nx.get_node_attributes(_G, "color")
     for edge in _G.edges:
         _G[edge[0]][edge[1]]["weight"] = (
-            1 if attr[edge[1]] == "red" or attr[edge[0]] == "red" else 0
+            1 if attr[edge[1]] == "red" else 0
         )
     try:
         path = nx.dijkstra_path(_G, source=s, target=t)
-        if len(path) < 20:
-            print(path)
-        path_sum = 0
+        #if len(path) < 20:
+            #print(path)
+        path_sum = 1 if attr[s] == 'red' else 0
         for i in range(len(path) - 1):
             path_sum += _G[path[i]][path[i + 1]]["weight"]
         return path_sum
@@ -88,10 +88,9 @@ def many(G, s, t):
             -1 if attr[edge[1]] == "red" or attr[edge[0]] == "red" else 0
         )
     try:
-        # Kig på dette
         path = nx.bellman_ford_path(_G, source=s, target=t)  # shortest path
-        if len(path) < 20:
-            print(path)
+        #if len(path) < 20:
+            #print(path)
         path_sum = 0
         for i in range(len(path) - 1):
             path_sum += _G[path[i]][path[i + 1]]["weight"]
@@ -108,12 +107,16 @@ def alternate(G, s, t):
         if attr[edge[0]] == attr[edge[1]]:
             _G.remove_edge(edge[0], edge[1])
     try:
-        print(nx.shortest_path(_G, source=s, target=t))
+        # print(nx.shortest_path(_G, source=s, target=t))
         return True
     except nx.NetworkXNoPath:
         return False
 
 
+print(alternate(G, s, t), end='\t')
+print(few(G, s, t), end='\t')
+print(many(G, s, t), end='\t')
+print(none(G, s, t), end='\t')
 print(some(G, s, t))
 
 # nw.visualize(G)
